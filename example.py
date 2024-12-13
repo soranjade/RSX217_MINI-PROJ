@@ -22,8 +22,8 @@ def simpleTest():
     print( "Dumping host connections" )
     dumpNodeConnections(net.hosts)
     print( "Testing network connectivity" )
-    net.pingAll()
-    net.stop()
+#    net.pingAll()
+#    net.stop()
 
 if __name__ == '__main__':
     # Tell mininet to print useful information
