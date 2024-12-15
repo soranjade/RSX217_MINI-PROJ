@@ -35,7 +35,7 @@ sudo mn -c
 
 ## Lancement de la topologie
 
-### 1 Le controller
+### 1. Le controller
 Dans un premier temps, il faut lancer le controller :
 ```
 sudo ./opt/onos-2.0.0/apache-karaf-4.2.2/bin/start
@@ -49,7 +49,7 @@ Une fois dans le controler, il faut activer le protocol openflow :
 app activate org.onosproject.fwd
 app activate org.onosproject.openflow
 ```
-### 2 La topologie SND
+### 2. La topologie SND
 Pour lancer la topologie, se rendre dans le dossier du GIT et lancier le script python :
 ```
 sudo python3 topo_arch_sdn.py
