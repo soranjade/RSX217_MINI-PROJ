@@ -49,8 +49,8 @@ Une fois dans le controler, il faut activer le protocol openflow :
 app activate org.onosproject.fwd
 app activate org.onosproject.openflow
 ```
-
-Pour lancer la topologie :
+### 2 La topologie SND
+Pour lancer la topologie, se rendre dans le dossier du GIT et lancier le script python :
 ```
 sudo python3 topo_arch_sdn.py
 ```
