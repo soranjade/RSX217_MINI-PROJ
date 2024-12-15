@@ -32,3 +32,10 @@ exit
 ```
 sudo mn -c
 ```
+
+## Lancement de la topologie
+
+Pour lancer la topologie :
+```
+sudo python3 topo_arch_sdn.py
+```
