@@ -54,3 +54,8 @@ Pour lancer la topologie, se rendre dans le dossier du GIT et lancier le script 
 ```
 sudo python3 topo_arch_sdn.py
 ```
+### 3. Vérifier link state controller
+Pour être sûr que la topologie s'est bien lancée, il faut vérifier l'état des liens entre les switchs et le controller :
+```
+sudo ovs-vsctl show
+```
