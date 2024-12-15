@@ -38,11 +38,11 @@ sudo mn -c
 ### 1. Le controller
 Dans un premier temps, il faut lancer le controller :
 ```
-sudo ./opt/onos-2.0.0/apache-karaf-4.2.2/bin/start
+sudo /opt/onos-2.0.0/apache-karaf-4.2.2/bin/start
 ```
 Dans un deuxieme temps, il faut lancer la CLI :
 ```
-sudo ./opt/onos-2.0.0/apache-karaf-4.2.2/bin/client
+sudo /opt/onos-2.0.0/apache-karaf-4.2.2/bin/client
 ```
 Une fois dans le controler, il faut activer le protocol openflow :
 ```
