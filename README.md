@@ -32,7 +32,18 @@ exit
 ```
 sudo mn -c
 ```
-
+#### Installation ONOS
+```
+apt update
+apt -y remove openjdk*
+apt -y install openjdk-11-jdk
+```
+si jamais il y a une erreur :
+   apt --fix-broken install
+   apt update
+   
+3.
+   
 ## Lancement de la topologie
 
 ### 1. Le controller
