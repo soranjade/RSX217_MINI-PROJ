@@ -20,10 +20,10 @@ def topology():
         phosts.append(net.addHost(f'PH{i}'))
     # Edge switch creations ES1 -> ES4
     for i in range(1,5):
-        ess.append(net.addSwitch(f'ES{i}', protocols='OpenFlow14,OpenFlow13,OpenFlow10'))
+        ess.append(net.addSwitch(f'ES{i}',dpid=f'00000000010{i}', protocols='OpenFlow13'))
     # Core switch creations CS1 -> CS4
     for i in range(1,5):
-        css.append(net.addSwitch(f'CS{i}', protocols='OpenFlow14,OpenFlow13,OpenFlow10'))
+        css.append(net.addSwitch(f'CS{i}',mac=f'00000000020{i}', protocols='OpenFlow13'))
         
     # Link creation
     # ES1 -> H1/H2
