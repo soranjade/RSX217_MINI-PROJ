@@ -44,23 +44,29 @@ docker pull onosproject/onos:2.7-latest
 ## Lancement de la topologie
 
 ### 1. Le controller
-Dans un premier temps, il faut lancer le controller :
+Lancer le compose dans le dossier "compose"
 ```
-sudo /opt/onos-2.0.0/apache-karaf-4.2.2/bin/start
+docker compose up
 ```
-Dans un deuxieme temps, il faut lancer la CLI :
+Se rendre dans le container
 ```
-sudo /opt/onos-2.0.0/apache-karaf-4.2.2/bin/client
+docker exec -it onos_270-onos-1 bash
 ```
-Une fois dans le controler, il faut activer le protocol openflow :
+
+Lancer le "client" :
+```
+./apache-karaf-4.2.14/bin/client
+```
+
+Une fois dans le controler, il faut activer le protocol openflow et la reactive forwarding :
 ```
 app activate org.onosproject.fwd
 app activate org.onosproject.openflow
 ```
 ### 2. La topologie SND
-Pour lancer la topologie, se rendre dans le dossier du GIT et lancier le script python :
+Pour lancer la topologie, se rendre dans le dossier du topo et lancier le script python :
 ```
-sudo python3 topo_arch_sdn.py
+sudo python3 topo_stable.py
 ```
 ### 3. Vérifier link state controller
 Pour être sûr que la topologie s'est bien lancée, il faut vérifier l'état des liens entre les switchs et le controller :
