@@ -33,21 +33,13 @@ exit
 sudo mn -c
 ```
 #### Installation ONOS
-1 Installation openjdk
 ```
 apt update
-apt -y remove openjdk*
-apt -y install openjdk-11-jdk
-cat >> /etc/environment <<EOL
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-JRE_HOME=/usr/lib/jvm/java-11-openjdk-amd64/jre
-EOL
+apt install -y docker-compose
+docker pull onosproject/onos:2.7-latest
 ```
-si jamais il y a une erreur :
-   apt --fix-broken install
-   apt update
-   
-3.
+
+
    
 ## Lancement de la topologie
 
