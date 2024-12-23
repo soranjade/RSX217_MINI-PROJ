@@ -46,11 +46,11 @@ docker pull onosproject/onos:2.7-latest
 ### 1. Le controller
 Lancer le compose dans le dossier "compose"
 ```
-docker compose up
+docker-compose -f compose_onos.yml  up
 ```
 Se rendre dans le container
 ```
-docker exec -it onos_270-onos-1 bash
+docker exec -it mon_onos bash
 ```
 
 Lancer le "client" :
@@ -72,4 +72,11 @@ sudo python3 topo_stable.py
 Pour être sûr que la topologie s'est bien lancée, il faut vérifier l'état des liens entre les switchs et le controller :
 ```
 sudo ovs-vsctl show
+```
+
+### 4. Arrêt du controlleur (cad de l'image docker)
+Dans le terminal où on a lancé le "docker-compose" on fait CTRL+c 2 fois de suite puis 
+```
+docker-compose -f compose_onos.yml down 
+
 ```
