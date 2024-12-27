@@ -80,3 +80,31 @@ Dans le terminal où on a lancé le "docker-compose" on fait CTRL+c 2 fois de su
 docker-compose -f compose_onos.yml down 
 
 ```
+
+## Outils utiles
+Postman (test API) :
+https://www.postman.com/downloads/
+
+## Commandes utiles
+### iperf
+Il faut lancer le serveur sur un host :
+```
+PH2 iperf -s &
+```
+
+Enfin, lancer la commande de test de perf depuis un autre host :
+```
+H1 iperf -c PH2 -t 90 -b 800M
+```
+-t le temps de perf en seconde
+-b debit en bits/seconde
+#### IPERF : Fermer le serveur
+Recuperer le process :
+```
+PH2 ps
+```
+kill le proc :
+Recuperer le process :
+```
+PH2 kill NUM_PROC
+```
