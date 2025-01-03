@@ -1,4 +1,5 @@
 import requests
+import json
 
 url = "http://localhost:8181/onos/v1/devices"
 
@@ -8,5 +9,10 @@ headers = {
 }
 
 response = requests.request("GET", url, headers=headers, data=payload, timeout=10)
+response_json = json.loads(response.content)
 
-print(response.text)
+print(response_json['devices'])
+
+for device in response_json['devices']:
+  print(device['id'])
+
