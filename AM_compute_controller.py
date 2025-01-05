@@ -45,10 +45,7 @@ class Node:
     
     def add_neighbor(self):
         pass
-    
-            
 
-    
 class Graph:
     def __init__(self, graph: dict = {}):
         self.graph = graph  # A dictionary for the adjacency list
@@ -57,16 +54,22 @@ class Graph:
         if node1 not in self.graph:  # Check if the node is already added
             self.graph[node1] = {}  # If not, create the node
         self.graph[node1][node2] = weight  # Else, add a connection to its neighbor
+    
+    def shortest_distances(self, source: str):
+       # Initialize the values of all nodes with infinity
+       distances = {node: float("inf") for node in self.graph}
+       distances[source] = 0  # Set the source value to 0
         
     def links_to_neighbors(self, links):
         for link in links:
+            # add a node in/on the graphe
             self.add_edge(link['src']['device'], link['dst']['device'], 1)
 
 devices = get_devices()
 links = get_links()
 
-#for link in links:
-#    print(link)
+for link in links:
+    print(link)
     
 G = Graph()
 

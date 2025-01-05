@@ -1,5 +1,5 @@
 import requests
-
+import json
 url = "http://localhost:8181/onos/v1/statistics/delta/ports"
 
 payload = {}
@@ -9,4 +9,6 @@ headers = {
 
 response = requests.request("GET", url, headers=headers, data=payload, timeout=10)
 
-print(response.text)
+#stats = json.loads(response.content)
+print(json.loads(response.content))
+
