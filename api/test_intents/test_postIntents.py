@@ -3,8 +3,8 @@ import json
 
 url = "http://localhost:8181/onos/v1/intents"
 
-hostSRC = "D6:25:7C:E3:71:89/-1"
-hostDST = "56:CB:3C:C4:EE:01/-1"
+hostSRC = "00:00:00:00:00:01/-1"
+hostDST = "00:00:00:00:00:03/-1"
 
 payload = json.dumps({
   "type": "HostToHostIntent",

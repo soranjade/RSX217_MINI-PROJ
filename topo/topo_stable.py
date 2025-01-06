@@ -14,10 +14,10 @@ def topology():
     css = []
     # hosts creations H1 -> H8
     for i in range(1,9):
-        hosts.append(net.addHost(f'H{i}'))
+        hosts.append(net.addHost(f'H{i}', mac=f'00000000000{i}'))
     # hosts creations PH1 -> PH2
     for i in range(1,3):
-        phosts.append(net.addHost(f'PH{i}'))
+        phosts.append(net.addHost(f'PH{i}', mac=f'00000000001{i}'))
     # Edge switch creations ES1 -> ES4
     for i in range(1,5):
         #ess.append(net.addSwitch(f'ES{i}',dpid=f'00000000010{i}', protocols='OpenFlow13'))
