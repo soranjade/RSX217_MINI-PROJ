@@ -31,25 +31,8 @@ def get_links():
 
     response = requests.request("GET", url, headers=headers, data=payload, timeout=10)
     response_json = json.loads(response.content)
-
-    # print(response_json['devices'])
-
-    #for link in response_json['links']:
-    #    print(link)
-    return response_json['links']
-
-class Node:
-    def __init__(self, id):
-        self.id = id
-        self.neighbors = []
     
-    def add_neighbor(self,id, weight):
-        self.neighbors.append(Neighbor(id, weight))
-
-class Neighbor:
-    def __init__(self,id, weight=1):
-        self.id = id
-        self.weight = weight
+    return response_json['links']
 
 class Graph:
     
@@ -63,6 +46,7 @@ class Graph:
         self.graph[node1][node2] = weight
         
     def links_to_edge(self, links):
+        # translate ONOS LINKS into EDGE for the graph
         for link in links:
             # add a node in/on the graphe
             self.add_edge(link['src']['device'], link['dst']['device'], 1)
@@ -89,22 +73,16 @@ class Graph:
                 if tentative_distance < distances[neighbor]:
                     distances[neighbor] = tentative_distance
                     heappush(pq, (tentative_distance, neighbor))
-
-        return distances
-
-       
-        
-'''    def graphDict_to_graph(self):
-        for node_dict, neighbors in self.graph_dict.items():
-            tmp_node = Node(node_dict)
-            print(node_dict)
-            for neighbor, weight in neighbors.items():
-                tmp_node.add_neighbor(neighbor, weight)
-                print(neighbor + " - " + str(weight))
-            self.graph.append(tmp_node)
-'''
-            
     
+        predecessors = {node: None for node in self.graph}
+
+        for node, distance in distances.items():
+            for neighbor, weight in self.graph[node].items():
+                if distances[neighbor] == distance + weight:
+                    predecessors[neighbor] = node
+
+        return distances, predecessors
+
               
 devices = get_devices()
 links = get_links()
@@ -113,12 +91,13 @@ G = Graph()
 
 G.links_to_edge(links)
 
-distances = G.shortest_distances("of:00000000000000e2")
-print(distances, "\n")
-#G.graphDict_to_graph()
-#print(G.graph_dict)
-'''for node in G.graph:
-    print(node.id)'''
+distances_e1, pred_e1 = G.shortest_distances("of:00000000000000e1")
+distances_e2 = G.shortest_distances("of:00000000000000e2")
+distances_e3 = G.shortest_distances("of:00000000000000e3")
+distances_e4 = G.shortest_distances("of:00000000000000e4")
+distances_c1 = G.shortest_distances("of:00000000000000c1")
+distances_c2 = G.shortest_distances("of:00000000000000c2")
+distances_c3 = G.shortest_distances("of:00000000000000c3")
+distances_c4 = G.shortest_distances("of:00000000000000c4")
 
-'''print(json.dumps(devices))
-print(json.dumps(links))'''
+print(pred_e1, "\n")
