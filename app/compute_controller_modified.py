@@ -86,6 +86,7 @@ class Graph:
               
 devices = get_devices()
 links = get_links()
+
     
 G = Graph()
 
