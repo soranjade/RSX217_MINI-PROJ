@@ -82,6 +82,24 @@ class Graph:
                     predecessors[neighbor] = node
 
         return distances, predecessors
+    
+    def shortest_path(self, source: str, target: str):
+        # Generate the predecessors dict
+        _, predecessors = self.shortest_distances(source)
+
+        path = []
+        current_node = target
+
+        # Backtrack from the target node using predecessors
+        while current_node:
+            path.append(current_node)
+            current_node = predecessors[current_node]
+
+        # Reverse the path and return it
+        path.reverse()
+
+        return path
+
 
               
 devices = get_devices()
@@ -91,7 +109,7 @@ links = get_links()
 G = Graph()
 
 G.links_to_edge(links)
-
+'''
 distances_e1, pred_e1 = G.shortest_distances("of:00000000000000e1")
 distances_e2 = G.shortest_distances("of:00000000000000e2")
 distances_e3 = G.shortest_distances("of:00000000000000e3")
@@ -99,6 +117,6 @@ distances_e4 = G.shortest_distances("of:00000000000000e4")
 distances_c1 = G.shortest_distances("of:00000000000000c1")
 distances_c2 = G.shortest_distances("of:00000000000000c2")
 distances_c3 = G.shortest_distances("of:00000000000000c3")
-distances_c4 = G.shortest_distances("of:00000000000000c4")
+distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 
-print(pred_e1, "\n")
+print(G.shortest_path("of:00000000000000e1","of:00000000000000c4"))
