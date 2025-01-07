@@ -115,28 +115,56 @@ class Graph:
 
         return path
 
+class NodeLink:
+    def __init__(self, table = {}):
+        self.table = table
+        
+    def add_NL(self, NL1, NL2, port, type):
+        if NL1 not in self.table:  # Check if the node is already added
+            self.table[NL1] = {}  # If not, create the node
+            self.table[NL1]["type"] = type
+        self.table[NL1][NL2] = port
+    
+    def links_to_NL(self, links):
+        # translate ONOS LINKS into EDGE for the graph
+        for link in links:
+            # add a node in/on the graphe
+            self.add_NL(link['src']['device'], link['dst']['device'], link['src']['port'], "switch")
+    def hosts_to_NL(self, hosts):
+        # translate ONOS LINKS into EDGE for the graph
+        for host in hosts:
+            # add a node in/on the graphe
+            self.add_NL(host['mac'], host['locations'][0]['elementId'], host['locations'][0]['port'], "host")
 
-              
-devices = get_devices()
+
+# { src { port, device }, dst { port, device} }
 links = get_links()
-
+'''
 for link in links:
     print(link)
-
+'''
 # {id,mac,locations[{elementId, port}]}
 hosts = get_hosts()
+
 '''
 for host in hosts:
     print(host['mac'])
     print(host['locations'][0]['elementId'])
-    print(host['locations'][0]['port'])'''
-    
+    print(host['locations'][0]['port'])
+    '''
 
+nodelink = NodeLink()
+nodelink.links_to_NL(links)
+nodelink.hosts_to_NL(hosts)
+# result json state of nodelink in json_result/nodelink.json
+#print(json.dumps(nodelink.table))
 
+# Create the dij graph
 G = Graph()
-
+# Convert ONOS links into edge for the graphe
 G.links_to_edge(links)
 '''
+Samples tests to define the shortest path in numerical way
 distances_e1, pred_e1 = G.shortest_distances("of:00000000000000e1")
 distances_e2 = G.shortest_distances("of:00000000000000e2")
 distances_e3 = G.shortest_distances("of:00000000000000e3")
@@ -146,4 +174,5 @@ distances_c2 = G.shortest_distances("of:00000000000000c2")
 distances_c3 = G.shortest_distances("of:00000000000000c3")
 distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 
-print(G.shortest_path("of:00000000000000e1","of:00000000000000c4"))
+# Example of the shortest path between two nodes E1 -> E3
+print("path e1 -> e3 : " + str(G.shortest_path("of:00000000000000e1","of:00000000000000e3")))
