@@ -3,7 +3,7 @@ import json
 from heapq import heapify, heappop, heappush
 
 def get_devices():
-    
+    # get all devices on ONOS
     url = "http://localhost:8181/onos/v1/devices"
 
     payload = {}
@@ -22,6 +22,7 @@ def get_devices():
     return response_json['devices']
 
 def get_links():
+    # get all links on ONOS
     url = "http://localhost:8181/onos/v1/links"
 
     payload = {}
@@ -33,6 +34,20 @@ def get_links():
     response_json = json.loads(response.content)
     
     return response_json['links']
+
+def get_hosts():
+    # get all hosts(pc) on ONOS
+    url = "http://localhost:8181/onos/v1/hosts"
+
+    payload = {}
+    headers = {
+    'Authorization': 'Basic a2FyYWY6a2FyYWY='
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload, timeout=10)
+    response_json = json.loads(response.content)
+    
+    return response_json['hosts']
 
 class Graph:
     
@@ -105,7 +120,19 @@ class Graph:
 devices = get_devices()
 links = get_links()
 
+for link in links:
+    print(link)
+
+# {id,mac,locations[{elementId, port}]}
+hosts = get_hosts()
+'''
+for host in hosts:
+    print(host['mac'])
+    print(host['locations'][0]['elementId'])
+    print(host['locations'][0]['port'])'''
     
+
+
 G = Graph()
 
 G.links_to_edge(links)
