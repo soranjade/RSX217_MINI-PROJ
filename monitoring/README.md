@@ -22,7 +22,7 @@ sudo ./install.sh
 docker-compose -f compose.yml  up
 ```
 
-RQ: attendre un peu la première car la création du la bdd pour grafana prends quelques instants (30s)
+RQ: attendre un peu la première fois car la création du la bdd pour grafana prends quelques instants (30s)
 
 
 ## Connection 
