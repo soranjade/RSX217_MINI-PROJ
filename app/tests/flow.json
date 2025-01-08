@@ -1,0 +1,35 @@
+{
+    "flows": [
+        {
+            "priority": 40000,
+            "timeout": 60,
+            "isPermanent": false,
+            "deviceId": "{{ DEVICE_ID }}",
+            "treatment": {
+                "instructions": [
+                    {
+                        "type": "OUTPUT",
+                        "port": "{{ PORT_OUT }}"
+                    }
+                ],
+                "deferred": []
+            },
+            "selector": {
+                "criteria": [
+                    {
+                        "type": "IN_PORT",
+                        "port": {{ PORT_IN }}
+                    },
+                    {
+                        "type": "ETH_SRC",
+                        "mac": "{{ ETH_SRC }}"
+                    },
+                    {
+                        "type": "ETH_DST",
+                        "mac": "{{ ETH_DST }}"
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,9 +1,33 @@
 import requests
 import json
+from pathlib import Path
 from heapq import heapify, heappop, heappush
 
+def post_flow(appId,payload):
+    # post the flow without intelligence with an appId
+    url = "http://localhost:8181/onos/v1/flows?appId="+appId
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic a2FyYWY6a2FyYWY='
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    print(response.text)
+    
+def rule_to_flow(device_id, port_in, port_out, mac_src, mac_dst):
+    # take the rule and convert it into a statefull flow with a txt template file
+    template = Path('template/flow.json').read_text()
+    template = template.replace("__DEVICE_ID__", device_id)
+    template = template.replace("__PORT_IN__", port_in)
+    template = template.replace("__PORT_OUT__", port_out)
+    template = template.replace("__MAC_DST__", mac_dst)
+    template = template.replace("__MAC_SRC__", mac_src)
+
+    return template
+    
 def get_devices():
-    # get all devices on ONOS
+    # get all devices on ONOS, return JSON
     url = "http://localhost:8181/onos/v1/devices"
 
     payload = {}
@@ -22,7 +46,7 @@ def get_devices():
     return response_json['devices']
 
 def get_links():
-    # get all links on ONOS
+    # get all links on ONOS, return JSON
     url = "http://localhost:8181/onos/v1/links"
 
     payload = {}
@@ -36,7 +60,7 @@ def get_links():
     return response_json['links']
 
 def get_hosts():
-    # get all hosts(pc) on ONOS
+    # get all hosts(pc) on ONOS, return JSON
     url = "http://localhost:8181/onos/v1/hosts"
 
     payload = {}
@@ -175,4 +199,16 @@ distances_c3 = G.shortest_distances("of:00000000000000c3")
 distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 
 # Example of the shortest path between two nodes E1 -> E3
-print("path e1 -> e3 : " + str(G.shortest_path("of:00000000000000e1","of:00000000000000e3")))
+#print("path e1 -> e3 : " + str(G.shortest_path("of:00000000000000e1","of:00000000000000e3")))
+
+flows = [ 
+         ["of:00000000000000e1", "1", "3", "00:00:00:00:00:01", "00:00:00:00:00:03"],
+         ["of:00000000000000c1", "3", "4", "00:00:00:00:00:01", "00:00:00:00:00:03"],
+         ["of:00000000000000e2", "3", "1", "00:00:00:00:00:01", "00:00:00:00:00:03"],
+    ]
+
+for flow in flows :
+    print(flow)
+    device_id, port_in, port_out, mac_src, mac_dst = flow
+    print
+    post_flow("dijto", json.dumps(json.loads(rule_to_flow(device_id, port_in, port_out, mac_src, mac_dst))))

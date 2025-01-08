@@ -1,42 +1,66 @@
 {
-    "groupId": 0,
-    "state": "ADDED",
-    "life": 512,
-    "liveType": "UNKNOWN",
-    "lastSeen": 1736200403142,
-    "packets": 3,
-    "bytes": 294,
-    "id": "48695175062761522",
-    "appId": "org.onosproject.net.intent",
-    "priority": 100,
-    "timeout": 0,
-    "isPermanent": true,
-    "deviceId": "of:00000000000000c1",
-    "tableId": 0,
-    "tableName": "0",
-    "treatment": {
-        "instructions": [
-            {
-                "type": "OUTPUT",
-                "port": "3"
-            }
-        ],
-        "deferred": []
-    },
-    "selector": {
-        "criteria": [
-            {
-                "type": "IN_PORT",
-                "port": 4
+    "flows": [
+        {
+            "priority": 40000,
+            "timeout": 60,
+            "isPermanent": false,
+            "deviceId": "__DEVICE_ID__",
+            "treatment": {
+                "instructions": [
+                    {
+                        "type": "OUTPUT",
+                        "port": "__PORT_OUT__"
+                    }
+                ],
+                "deferred": []
             },
-            {
-                "type": "ETH_DST",
-                "mac": "00:00:00:00:00:01"
-            },
-            {
-                "type": "ETH_SRC",
-                "mac": "00:00:00:00:00:03"
+            "selector": {
+                "criteria": [
+                    {
+                        "type": "IN_PORT",
+                        "port": __PORT_IN__
+                    },
+                    {
+                        "type": "ETH_SRC",
+                        "mac": "__MAC_SRC__"
+                    },
+                    {
+                        "type": "ETH_DST",
+                        "mac": "__MAC_DST__"
+                    }
+                ]
             }
-        ]
-    }
+        },
+        {
+            "priority": 40000,
+            "timeout": 60,
+            "isPermanent": false,
+            "deviceId": "__DEVICE_ID__",
+            "treatment": {
+                "instructions": [
+                    {
+                        "type": "OUTPUT",
+                        "port": "__PORT_IN__"
+                    }
+                ],
+                "deferred": []
+            },
+            "selector": {
+                "criteria": [
+                    {
+                        "type": "IN_PORT",
+                        "port": __PORT_OUT__
+                    },
+                    {
+                        "type": "ETH_SRC",
+                        "mac": "__MAC_DST__"
+                    },
+                    {
+                        "type": "ETH_DST",
+                        "mac": "__MAC_SRC__"
+                    }
+                ]
+            }
+        }
+    ]
 }
