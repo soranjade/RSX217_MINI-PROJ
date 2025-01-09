@@ -191,7 +191,7 @@ nodelink = NodeLink()
 nodelink.links_to_NL(links)
 nodelink.hosts_to_NL(hosts)
 # result json state of nodelink in json_result/nodelink.json
-print(json.dumps(nodelink.table))
+#print(json.dumps(nodelink.table))
 
 # Create the dij graph
 G = Graph()
@@ -212,7 +212,45 @@ distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 #print("path e1 -> e3 : " + str(G.shortest_path("of:00000000000000e1","of:00000000000000e3")))
 
 #print(hosts)
-print(nodelink.table["00:00:00:00:00:01"])
+# HOST TO HOST
+h1 = "00:00:00:00:00:01"
+h2 = "00:00:00:00:00:03"
+
+# GET THE HOST SWITCH CONNECTION
+first_node = nodelink.table[h1]["switch"]
+last_node = nodelink.table[h2]["switch"]
+first_node_port = nodelink.table[h1]["switch_port"]
+last_node_port = nodelink.table[h2]["switch_port"]
+
+nodepath = G.shortest_path(first_node,last_node)
+nodepath = json.loads(json.dumps(nodepath))
+
+for node in nodepath:
+    index = nodepath.index(node)
+    node_id = node
+    mac_src = h1
+    mac_dst = h2
+    
+    if index == 0:
+        # first node treatment
+        port_in = first_node_port
+        port_out = nodelink.table[node][nodepath[index+1]]
+        
+    elif index == len(nodepath) -1:
+        # last node treatment
+        port_in = nodelink.table[node][nodepath[index-1]]
+        port_out = last_node_port
+        
+    else:
+        # node between first and last
+        port_in = nodelink.table[node][nodepath[index-1]]
+        port_out = nodelink.table[node][nodepath[index+1]]
+        
+    print(node_id + ", " + port_in + ", " + port_out +", " + mac_src + ", " + mac_dst)
+    
+#print("path e1 -> e3 : " + str(nodepath))
+
+
 flows = [ 
          ["of:00000000000000e1", "1", "3", "00:00:00:00:00:01", "00:00:00:00:00:03"],
          ["of:00000000000000c1", "3", "4", "00:00:00:00:00:01", "00:00:00:00:00:03"],
