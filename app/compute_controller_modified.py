@@ -3,6 +3,11 @@ import json
 from pathlib import Path
 from heapq import heapify, heappop, heappush
 
+def path_between_hosts(h1,h2,dij_graph,nodelink_table):
+    first_node = nodelink_table[h1]
+    pass
+    
+
 def post_flow(appId,payload):
     # post the flow without intelligence with an appId
     url = "http://localhost:8181/onos/v1/flows?appId="+appId
@@ -140,20 +145,25 @@ class Graph:
         return path
 
 class NodeLink:
-    def __init__(self, table = {}):
+    def __init__(self, table = {}, hosts = {}):
         self.table = table
         
     def add_NL(self, NL1, NL2, port, type):
         if NL1 not in self.table:  # Check if the node is already added
             self.table[NL1] = {}  # If not, create the node
             self.table[NL1]["type"] = type
-        self.table[NL1][NL2] = port
+        if type == "switch":
+            self.table[NL1][NL2] = port
+        if type == "host":
+            self.table[NL1]["switch"] = NL2
+            self.table[NL1]["switch_port"] = port
     
     def links_to_NL(self, links):
         # translate ONOS LINKS into EDGE for the graph
         for link in links:
             # add a node in/on the graphe
             self.add_NL(link['src']['device'], link['dst']['device'], link['src']['port'], "switch")
+        
     def hosts_to_NL(self, hosts):
         # translate ONOS LINKS into EDGE for the graph
         for host in hosts:
@@ -181,7 +191,7 @@ nodelink = NodeLink()
 nodelink.links_to_NL(links)
 nodelink.hosts_to_NL(hosts)
 # result json state of nodelink in json_result/nodelink.json
-#print(json.dumps(nodelink.table))
+print(json.dumps(nodelink.table))
 
 # Create the dij graph
 G = Graph()
@@ -201,14 +211,16 @@ distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 # Example of the shortest path between two nodes E1 -> E3
 #print("path e1 -> e3 : " + str(G.shortest_path("of:00000000000000e1","of:00000000000000e3")))
 
+#print(hosts)
+print(nodelink.table["00:00:00:00:00:01"])
 flows = [ 
          ["of:00000000000000e1", "1", "3", "00:00:00:00:00:01", "00:00:00:00:00:03"],
          ["of:00000000000000c1", "3", "4", "00:00:00:00:00:01", "00:00:00:00:00:03"],
          ["of:00000000000000e2", "3", "1", "00:00:00:00:00:01", "00:00:00:00:00:03"],
     ]
 
+
 for flow in flows :
-    print(flow)
+    #print(flow)
     device_id, port_in, port_out, mac_src, mac_dst = flow
-    print
     post_flow("dijto", json.dumps(json.loads(rule_to_flow(device_id, port_in, port_out, mac_src, mac_dst))))
