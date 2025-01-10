@@ -1,0 +1,154 @@
+{
+    "of:00000000000000c1": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000c2": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "5": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000c3": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000c4": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "5": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000e1": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000e2": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000e3": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    },
+    "of:00000000000000e4": {
+        "1": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "2": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "3": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        },
+        "4": {
+            "Mbits_in": 0,
+            "Mbits_out": 0
+        }
+    }
+}
