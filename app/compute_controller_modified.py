@@ -2,6 +2,38 @@ import requests
 import json
 from pathlib import Path
 from heapq import heapify, heappop, heappush
+import datetime
+
+def last_exec_time():
+    # get the last exec time in the file
+    date_last_exec = Path('last_exec.txt').read_text()
+    date_last_exec = datetime.datetime.strptime(date_last_exec, "%y %m %d %H %M %S")
+
+    date_now = datetime.datetime.now()
+
+    # Calculate the diff between now and the last
+    diff = date_now - date_last_exec
+
+    # Write the now in the last exec for the next exec
+    Path('last_exec.txt').write_text(date_now.strftime("%y %m %d %H %M %S"))
+    
+    return round(diff.total_seconds())
+
+def get_app_flows(appId="dijto"):
+    url = "http://localhost:8181/onos/v1/flows/application/"+appId
+
+    payload = {}
+    headers = {
+    'Authorization': 'Basic a2FyYWY6a2FyYWY='
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload, timeout=10)
+    response_json = json.loads(response.content)
+    
+    try:
+        return response_json["flows"]
+    except:
+        return "[]"
 
 def path_between_hosts(h1,h2,dij_graph,nodelink_table):
     first_node = nodelink_table[h1]
@@ -93,7 +125,7 @@ class Graph:
         # translate ONOS LINKS into EDGE for the graph
         for link in links:
             # add a node in/on the graphe
-            self.add_edge(link['src']['device'], link['dst']['device'], 1)
+            self.add_edge(link['src']['device'], link['dst']['device'], 1000)
     
     def shortest_distances(self, source: str):
        # Initialize the values of all nodes with infinity
@@ -171,7 +203,13 @@ class NodeLink:
             self.add_NL(host['mac'], host['locations'][0]['elementId'], host['locations'][0]['port'], "host")
 
 
+# Last execution time
+time_start = datetime.datetime.now()
+
+last_exec = last_exec_time()
+
 # { src { port, device }, dst { port, device} }
+
 links = get_links()
 '''
 for link in links:
@@ -179,6 +217,8 @@ for link in links:
 
 # {id,mac,locations[{elementId, port}]}
 hosts = get_hosts()
+
+#flows_dijto = get_dijto_flows()
 
 '''
 for host in hosts:
@@ -217,22 +257,160 @@ distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 #print(hosts)
 # HOST TO HOST
 
+#print(hosts)
+
+# Create a fifo to auto create path betweens all hosts
+hosts_fifo = []
+
+for host in hosts:
+    hosts_fifo.append(host["mac"])
+
+
+print(hosts_fifo)
+
+while len(hosts_fifo) >= 2:
+    h1 = hosts_fifo.pop(0)
+    
+    for host in hosts_fifo:
+        h2 = host
+        
+        # getting the cost in Mbits for the hosts
+        switch_h1 = nodelink.table[h1]["switch"]
+        switch_port_h1 = nodelink.table[h1]["switch_port"]
+
+        switch_h2 = nodelink.table[h2]["switch"]
+        switch_port_h2 = nodelink.table[h2]["switch_port"]
+
+        better_stats = json.loads(Path("stats.json").read_text())
+        h1_cost_out = better_stats[switch_h1][switch_port_h1]["Mbits_in"]
+        h2_cost_out = better_stats[switch_h2][switch_port_h2]["Mbits_in"]
+        # convert mega to giga
+        #h1_cost_out = h1_cost_out * 0.001
+        #h2_cost_out = h2_cost_out * 0.001
+        biggest_cost = h1_cost_out if h1_cost_out > h2_cost_out else h2_cost_out
+        #print(h1 + " <-> " + h2)
+        
+        # getting the first node with the first host
+        # getting the last node with the last host
+        first_node = nodelink.table[h1]["switch"]
+        last_node = nodelink.table[h2]["switch"]
+        first_node_port = nodelink.table[h1]["switch_port"]
+        last_node_port = nodelink.table[h2]["switch_port"]
+
+        # finding the shortest path with dijsktra
+        nodepath = G.shortest_path(first_node,last_node)
+        nodepath = json.loads(json.dumps(nodepath))
+        #print(nodepath)
+        
+        # Increase the cost of each neighbors node with host cost
+            
+        
+        
+        if len(nodepath) == 1:
+            # we have to deal with the 2 hosts on one node
+            port_in = first_node_port
+            port_out = last_node_port
+            mac_src = h1
+            mac_dst = h2
+            node_id = nodepath[0]
+            
+            appId = mac_src+mac_dst+node_id
+            #print(node_id + ", " + port_in + ", " + port_out +", " + mac_src + ", " + mac_dst)
+            try:
+                flows_last = json.loads(Path('flows/'+appId+".json").read_text())
+            except:
+                flows_last = False
+            flows_now = get_app_flows(appId)
+            Path('flows/'+appId+".json").write_text(json.dumps(flows_now, indent=4, sort_keys=True))
+            post_flow(appId, json.dumps(json.loads(rule_to_flow(node_id, port_in, port_out, mac_src, mac_dst))))
+            #print(json.dumps(get_app_flows(mac_src+mac_dst)))
+            
+            
+            
+        else:
+        
+            for node in nodepath:
+                index = nodepath.index(node)
+                node_id = node
+                mac_src = h1
+                mac_dst = h2
+                
+                appId = mac_src+mac_dst+node_id
+                flows_last = json.loads(Path('flows/'+appId+".json").read_text())
+                try:
+                    flows_last = json.loads(Path('flows/'+appId+".json").read_text())
+                except:
+                    flows_last = False
+                    
+                flows_now = get_app_flows(appId)
+                
+                if index == 0:
+                    # first node treatment
+                    next_node = nodepath[index+1]
+                    port_in = first_node_port
+                    port_out = nodelink.table[node][next_node]
+                    #G.graph[node][next_node] = G.graph[node][next_node] + biggest_cost
+                    
+                elif index == len(nodepath) -1:
+                    # last node treatment
+                    port_in = nodelink.table[node][nodepath[index-1]]
+                    port_out = last_node_port
+                    
+                else:
+                    # node between first and last
+                    port_in = nodelink.table[node][nodepath[index-1]]
+                    port_out = nodelink.table[node][nodepath[index+1]]
+                    
+                last_bytes = 0
+                actual_bytes = 0
+                # GET the total bytes in the last flow
+                if flows_last:
+                        #print("coucou")
+                    for flow in flows_last:
+                        for criteria in flow["selector"]["criteria"]:
+                            try:
+                                if h1 == criteria["mac"] and criteria["type"] == "ETH_SRC":
+                                    last_bytes = flow["bytes"]
+                                    print(h1 + " " + h2 + " last : " + str(last_bytes))
+                            except:
+                                continue
+                            
+                
+                for flow in flows_now:
+                    for criteria in flow["selector"]["criteria"]:
+                        try:
+                            if h1 == criteria["mac"] and criteria["type"] == "ETH_SRC":
+                                actual_bytes = flow["bytes"]
+                                print(h1 + " " + h2 + " actual : " + str(actual_bytes))
+                        except:
+                            continue
+                            
+                diff = actual_bytes - last_bytes
+                if diff > 0 :
+                    print(str(last_exec))
+                    print("diff : " + str(diff * 8 / last_exec / 1000000))
+                                
+                    #G.graph[node][nodepath[index+1]] = G.graph[node][nodepath[index+1]] + biggest_cost
+                    
+                    
+                #print(node_id + ", " + port_in + ", " + port_out +", " + mac_src + ", " + mac_dst)
+                
+                Path('flows/'+appId+".json").write_text(json.dumps(flows_now, indent=4, sort_keys=True))
+                post_flow(mac_src+mac_dst+node_id, json.dumps(json.loads(rule_to_flow(node_id, port_in, port_out, mac_src, mac_dst))))
+                #print(json.dumps(get_app_flows(mac_src+mac_dst)))
+                
+                
+                
+    
+#print(json.dumps(G.graph))
+'''
 h1 = "00:00:00:00:00:01"
 h2 = "00:00:00:00:00:05"
 
 
-switch_h1 = nodelink.table[h1]["switch"]
-switch_port_h1 = nodelink.table[h1]["switch_port"]
 
-switch_h2 = nodelink.table[h2]["switch"]
-switch_port_h2 = nodelink.table[h2]["switch_port"]
 
-better_stats = json.loads(Path("stats.json").read_text())
-h1_cost_out = better_stats[switch_h1][switch_port_h1]["Mbits_in"]
-h2_cost_out = better_stats[switch_h2][switch_port_h2]["Mbits_in"]
 
-print("h1 cost : " + str(h1_cost_out))
-print("h2 cost : " + str(h2_cost_out))
 
 # GET THE HOST SWITCH CONNECTION
 first_node = nodelink.table[h1]["switch"]
@@ -267,7 +445,7 @@ for node in nodepath:
         
     print(node_id + ", " + port_in + ", " + port_out +", " + mac_src + ", " + mac_dst)
     post_flow("dijto", json.dumps(json.loads(rule_to_flow(node_id, port_in, port_out, mac_src, mac_dst))))
-    
+    '''
 #print("path e1 -> e3 : " + str(nodepath))
 '''
 
@@ -283,4 +461,10 @@ for flow in flows :
     device_id, port_in, port_out, mac_src, mac_dst = flow
     post_flow("dijto", json.dumps(json.loads(rule_to_flow(device_id, port_in, port_out, mac_src, mac_dst))))'''
 
+#print(flows_dijto)
+#Path('dijto_flows.json').write_text(json.dumps(flows_dijto, indent=4, sort_keys=True))
 
+time_end = datetime.datetime.now()
+
+total_exec_time = time_end - time_start 
+print("exec time : " + str(total_exec_time.total_seconds()))
