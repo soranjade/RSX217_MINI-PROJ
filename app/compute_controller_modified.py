@@ -198,7 +198,7 @@ nodelink.hosts_to_NL(hosts)
 G = Graph()
 # Convert ONOS links into edge for the graphe
 G.links_to_edge(links)
-print(json.dumps(G.graph))
+#print(json.dumps(G.graph))
 '''
 #Samples tests to define the shortest path in numerical way
 distances_e1, pred_e1 = G.shortest_distances("of:00000000000000e1")
@@ -219,6 +219,20 @@ distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 
 h1 = "00:00:00:00:00:01"
 h2 = "00:00:00:00:00:05"
+
+
+switch_h1 = nodelink.table[h1]["switch"]
+switch_port_h1 = nodelink.table[h1]["switch_port"]
+
+switch_h2 = nodelink.table[h2]["switch"]
+switch_port_h2 = nodelink.table[h2]["switch_port"]
+
+better_stats = json.loads(Path("stats.json").read_text())
+h1_cost_out = better_stats[switch_h1][switch_port_h1]["Mbits_in"]
+h2_cost_out = better_stats[switch_h2][switch_port_h2]["Mbits_in"]
+
+print("h1 cost : " + str(h1_cost_out))
+print("h2 cost : " + str(h2_cost_out))
 
 # GET THE HOST SWITCH CONNECTION
 first_node = nodelink.table[h1]["switch"]
@@ -268,3 +282,5 @@ for flow in flows :
     #print(flow)
     device_id, port_in, port_out, mac_src, mac_dst = flow
     post_flow("dijto", json.dumps(json.loads(rule_to_flow(device_id, port_in, port_out, mac_src, mac_dst))))'''
+
+
