@@ -74,7 +74,7 @@ docker-compose -f compose.yml down
 ```
 
 ## Installation de SDN_EXPORTER
-[Voir ce fichier](SDN_EXPORTER.md)
+[Voir le fichier SDN_EXPORTER.md](SDN_EXPORTER.md)
 
 
 
