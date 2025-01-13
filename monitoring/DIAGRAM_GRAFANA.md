@@ -17,7 +17,7 @@ On va modifier le dashbord SND_EXPORTER en replaçant les types de graph par Dia
 - On édite dans le panneau Bytes received per Port per second (on clique dans le coin en haut à droite, les 3 points, puis "Edit")
 - En haut à droite on change le type de graph: par défaut c'est Time Serie et on met Diagram
 - On va tunner ce plugin en modifiant les options: (partie droite de  la page)
-  - Dans le bloc "Diagram definition " on met le contenu du fichier diag_def.txt
+  - Dans le bloc "Diagram definition " on met le contenu du fichier  [diag_def.txt](diag_def.txt)  
   -  Minimum text node width : 80
   -  Minimum text node height : 80
   -  Legend : on décoche
