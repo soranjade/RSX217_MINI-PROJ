@@ -368,27 +368,40 @@ while len(hosts_fifo) >= 2:
                         #print("coucou")
                     for flow in flows_last:
                         for criteria in flow["selector"]["criteria"]:
+                            if last_bytes < flow["bytes"]:
+                                last_bytes = flow["bytes"]
+                                '''
                             try:
                                 if h1 == criteria["mac"] and criteria["type"] == "ETH_SRC":
                                     last_bytes = flow["bytes"]
                                     print(h1 + " " + h2 + " last : " + str(last_bytes))
                             except:
-                                continue
+                                continue'''
                             
                 
                 for flow in flows_now:
                     for criteria in flow["selector"]["criteria"]:
+                        if actual_bytes < flow["bytes"]:
+                            actual_bytes = flow["bytes"]
+                            '''
+                        actual_bytes = flow["bytes"] if actual_bytes 
                         try:
                             if h1 == criteria["mac"] and criteria["type"] == "ETH_SRC":
                                 actual_bytes = flow["bytes"]
                                 print(h1 + " " + h2 + " actual : " + str(actual_bytes))
                         except:
-                            continue
+                            continue'''
                             
                 diff = actual_bytes - last_bytes
                 if diff > 0 :
                     print(str(last_exec))
-                    print("diff : " + str(diff * 8 / last_exec / 1000000))
+                    diff = round(diff * 8 / last_exec / 1000000)
+                    print("diff : " + str(diff))
+                    
+                if index < len(nodepath) -1:
+                    G.graph[node][nodepath[index+1]] = G.graph[node][nodepath[index+1]] + diff
+                    G.graph[nodepath[index+1]][node] = G.graph[nodepath[index+1]][node] + diff
+                    
                                 
                     #G.graph[node][nodepath[index+1]] = G.graph[node][nodepath[index+1]] + biggest_cost
                     
@@ -464,6 +477,8 @@ for flow in flows :
 #print(flows_dijto)
 #Path('dijto_flows.json').write_text(json.dumps(flows_dijto, indent=4, sort_keys=True))
 
+#print(json.dumps(G.graph))
+Path('actual_graph.json').write_text(json.dumps((G.graph), indent=4, sort_keys=True))
 time_end = datetime.datetime.now()
 
 total_exec_time = time_end - time_start 
