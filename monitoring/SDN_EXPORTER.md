@@ -15,7 +15,7 @@ python3 exporter.py
 
 ```
 # On ajoute à la fin dans le section targets du fichier /opt/monitoring/etc/prometheus/prometheus.yml 
-          - 1172.17.0.1:9091
+          - 172.17.0.1:9091
 
 # on reload prometheus
 curl -X POST http://localhost:9090/-/reload
