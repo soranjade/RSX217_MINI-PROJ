@@ -76,6 +76,8 @@ docker-compose -f compose.yml down
 ## Installation de SDN_EXPORTER
 [Voir le fichier SDN_EXPORTER.md](SDN_EXPORTER.md)
 
+## Install et confid du dashbord diagram
+[Voir le fichier DIAGRAM_GRAFANA.md](DIAGRAM_GRAFANA.md)
 
 
 
