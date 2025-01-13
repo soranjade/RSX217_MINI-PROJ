@@ -6,8 +6,8 @@
         "groupId": 0,
         "id": "79094471753829596",
         "isPermanent": false,
-        "lastSeen": 1736720635223,
-        "life": 0,
+        "lastSeen": 1736809493871,
+        "life": 5,
         "liveType": "UNKNOWN",
         "packets": 0,
         "priority": 10,
@@ -27,7 +27,7 @@
                 }
             ]
         },
-        "state": "PENDING_ADD",
+        "state": "ADDED",
         "tableId": 0,
         "tableName": "0",
         "timeout": 60,
@@ -48,8 +48,8 @@
         "groupId": 0,
         "id": "79094471581166235",
         "isPermanent": false,
-        "lastSeen": 1736720635223,
-        "life": 0,
+        "lastSeen": 1736809493872,
+        "life": 5,
         "liveType": "UNKNOWN",
         "packets": 0,
         "priority": 10,
@@ -69,7 +69,7 @@
                 }
             ]
         },
-        "state": "PENDING_ADD",
+        "state": "ADDED",
         "tableId": 0,
         "tableName": "0",
         "timeout": 60,

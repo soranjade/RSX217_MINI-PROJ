@@ -1,1 +1,128 @@
-[]
+[
+    {
+        "appId": "00:00:00:00:00:0500:00:00:00:00:11of:00000000000000e3",
+        "bytes": 0,
+        "deviceId": "of:00000000000000e3",
+        "groupId": 0,
+        "id": "77405620455137835",
+        "isPermanent": false,
+        "lastSeen": 1736809529877,
+        "life": 5,
+        "liveType": "UNKNOWN",
+        "packets": 0,
+        "priority": 10,
+        "selector": {
+            "criteria": [
+                {
+                    "port": 4,
+                    "type": "IN_PORT"
+                },
+                {
+                    "mac": "00:00:00:00:00:05",
+                    "type": "ETH_DST"
+                },
+                {
+                    "mac": "00:00:00:00:00:11",
+                    "type": "ETH_SRC"
+                }
+            ]
+        },
+        "state": "ADDED",
+        "tableId": 0,
+        "tableName": "0",
+        "timeout": 60,
+        "treatment": {
+            "deferred": [],
+            "instructions": [
+                {
+                    "port": "1",
+                    "type": "OUTPUT"
+                }
+            ]
+        }
+    },
+    {
+        "appId": "00:00:00:00:00:0500:00:00:00:00:11of:00000000000000e3",
+        "bytes": 0,
+        "deviceId": "of:00000000000000e3",
+        "groupId": 0,
+        "id": "77405621558490989",
+        "isPermanent": false,
+        "lastSeen": 1736809529877,
+        "life": 5,
+        "liveType": "UNKNOWN",
+        "packets": 0,
+        "priority": 10,
+        "selector": {
+            "criteria": [
+                {
+                    "port": 1,
+                    "type": "IN_PORT"
+                },
+                {
+                    "mac": "00:00:00:00:00:11",
+                    "type": "ETH_DST"
+                },
+                {
+                    "mac": "00:00:00:00:00:05",
+                    "type": "ETH_SRC"
+                }
+            ]
+        },
+        "state": "ADDED",
+        "tableId": 0,
+        "tableName": "0",
+        "timeout": 60,
+        "treatment": {
+            "deferred": [],
+            "instructions": [
+                {
+                    "port": "4",
+                    "type": "OUTPUT"
+                }
+            ]
+        }
+    },
+    {
+        "appId": "00:00:00:00:00:0500:00:00:00:00:11of:00000000000000e3",
+        "bytes": 0,
+        "deviceId": "of:00000000000000e3",
+        "groupId": 0,
+        "id": "77405622621889494",
+        "isPermanent": false,
+        "lastSeen": 1736809529877,
+        "life": 34,
+        "liveType": "UNKNOWN",
+        "packets": 0,
+        "priority": 10,
+        "selector": {
+            "criteria": [
+                {
+                    "port": 3,
+                    "type": "IN_PORT"
+                },
+                {
+                    "mac": "00:00:00:00:00:05",
+                    "type": "ETH_DST"
+                },
+                {
+                    "mac": "00:00:00:00:00:11",
+                    "type": "ETH_SRC"
+                }
+            ]
+        },
+        "state": "ADDED",
+        "tableId": 0,
+        "tableName": "0",
+        "timeout": 60,
+        "treatment": {
+            "deferred": [],
+            "instructions": [
+                {
+                    "port": "1",
+                    "type": "OUTPUT"
+                }
+            ]
+        }
+    }
+]

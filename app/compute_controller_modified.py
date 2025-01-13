@@ -4,9 +4,15 @@ from pathlib import Path
 from heapq import heapify, heappop, heappush
 import datetime
 
+app = "/home/student/RSX217_MINI-PROJ/app/"
+
+path_last_exec = app + "last_exec.txt"
+path_actual_graph = app + "actual_graph.json"
+path_template = app + "template/flow.json"
+
 def last_exec_time():
     # get the last exec time in the file
-    date_last_exec = Path('last_exec.txt').read_text()
+    date_last_exec = Path(path_last_exec).read_text()
     date_last_exec = datetime.datetime.strptime(date_last_exec, "%y %m %d %H %M %S")
 
     date_now = datetime.datetime.now()
@@ -15,7 +21,7 @@ def last_exec_time():
     diff = date_now - date_last_exec
 
     # Write the now in the last exec for the next exec
-    Path('last_exec.txt').write_text(date_now.strftime("%y %m %d %H %M %S"))
+    Path(path_last_exec).write_text(date_now.strftime("%y %m %d %H %M %S"))
     
     return round(diff.total_seconds())
 
@@ -33,7 +39,7 @@ def get_app_flows(appId="dijto"):
     try:
         return response_json["flows"]
     except:
-        return "[]"
+        return False
 
 def path_between_hosts(h1,h2,dij_graph,nodelink_table):
     first_node = nodelink_table[h1]
@@ -54,7 +60,7 @@ def post_flow(appId,payload):
     
 def rule_to_flow(device_id, port_in, port_out, mac_src, mac_dst):
     # take the rule and convert it into a statefull flow with a txt template file
-    template = Path('template/flow.json').read_text()
+    template = Path(path_template).read_text()
     template = template.replace("__DEVICE_ID__", device_id)
     template = template.replace("__PORT_IN__", port_in)
     template = template.replace("__PORT_OUT__", port_out)
@@ -125,7 +131,7 @@ class Graph:
         # translate ONOS LINKS into EDGE for the graph
         for link in links:
             # add a node in/on the graphe
-            self.add_edge(link['src']['device'], link['dst']['device'], 1000)
+            self.add_edge(link['src']['device'], link['dst']['device'], 1)
     
     def shortest_distances(self, source: str):
        # Initialize the values of all nodes with infinity
@@ -281,13 +287,13 @@ while len(hosts_fifo) >= 2:
         switch_h2 = nodelink.table[h2]["switch"]
         switch_port_h2 = nodelink.table[h2]["switch_port"]
 
-        better_stats = json.loads(Path("stats.json").read_text())
-        h1_cost_out = better_stats[switch_h1][switch_port_h1]["Mbits_in"]
-        h2_cost_out = better_stats[switch_h2][switch_port_h2]["Mbits_in"]
+        #better_stats = json.loads(Path("stats.json").read_text())
+        #h1_cost_out = better_stats[switch_h1][switch_port_h1]["Mbits_in"]
+        #h2_cost_out = better_stats[switch_h2][switch_port_h2]["Mbits_in"]
         # convert mega to giga
         #h1_cost_out = h1_cost_out * 0.001
         #h2_cost_out = h2_cost_out * 0.001
-        biggest_cost = h1_cost_out if h1_cost_out > h2_cost_out else h2_cost_out
+        #biggest_cost = h1_cost_out if h1_cost_out > h2_cost_out else h2_cost_out
         #print(h1 + " <-> " + h2)
         
         # getting the first node with the first host
@@ -317,11 +323,11 @@ while len(hosts_fifo) >= 2:
             appId = mac_src+mac_dst+node_id
             #print(node_id + ", " + port_in + ", " + port_out +", " + mac_src + ", " + mac_dst)
             try:
-                flows_last = json.loads(Path('flows/'+appId+".json").read_text())
+                flows_last = json.loads(Path(app + 'flows/'+appId+".json").read_text())
             except:
                 flows_last = False
             flows_now = get_app_flows(appId)
-            Path('flows/'+appId+".json").write_text(json.dumps(flows_now, indent=4, sort_keys=True))
+            Path(app + 'flows/'+appId+".json").write_text(json.dumps(flows_now, indent=4, sort_keys=True))
             post_flow(appId, json.dumps(json.loads(rule_to_flow(node_id, port_in, port_out, mac_src, mac_dst))))
             #print(json.dumps(get_app_flows(mac_src+mac_dst)))
             
@@ -336,9 +342,8 @@ while len(hosts_fifo) >= 2:
                 mac_dst = h2
                 
                 appId = mac_src+mac_dst+node_id
-                flows_last = json.loads(Path('flows/'+appId+".json").read_text())
                 try:
-                    flows_last = json.loads(Path('flows/'+appId+".json").read_text())
+                    flows_last = json.loads(Path(app + 'flows/'+appId+".json").read_text())
                 except:
                     flows_last = False
                     
@@ -378,11 +383,11 @@ while len(hosts_fifo) >= 2:
                             except:
                                 continue'''
                             
-                
-                for flow in flows_now:
-                    for criteria in flow["selector"]["criteria"]:
-                        if actual_bytes < flow["bytes"]:
-                            actual_bytes = flow["bytes"]
+                if flows_now:
+                    for flow in flows_now:
+                        for criteria in flow["selector"]["criteria"]:
+                            if actual_bytes < flow["bytes"]:
+                                actual_bytes = flow["bytes"]
                             '''
                         actual_bytes = flow["bytes"] if actual_bytes 
                         try:
@@ -408,7 +413,7 @@ while len(hosts_fifo) >= 2:
                     
                 #print(node_id + ", " + port_in + ", " + port_out +", " + mac_src + ", " + mac_dst)
                 
-                Path('flows/'+appId+".json").write_text(json.dumps(flows_now, indent=4, sort_keys=True))
+                Path(app + 'flows/'+appId+".json").write_text(json.dumps(flows_now, indent=4, sort_keys=True))
                 post_flow(mac_src+mac_dst+node_id, json.dumps(json.loads(rule_to_flow(node_id, port_in, port_out, mac_src, mac_dst))))
                 #print(json.dumps(get_app_flows(mac_src+mac_dst)))
                 
@@ -478,7 +483,7 @@ for flow in flows :
 #Path('dijto_flows.json').write_text(json.dumps(flows_dijto, indent=4, sort_keys=True))
 
 #print(json.dumps(G.graph))
-Path('actual_graph.json').write_text(json.dumps((G.graph), indent=4, sort_keys=True))
+Path(path_actual_graph).write_text(json.dumps((G.graph), indent=4, sort_keys=True))
 time_end = datetime.datetime.now()
 
 total_exec_time = time_end - time_start 
