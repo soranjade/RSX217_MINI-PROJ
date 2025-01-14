@@ -3,12 +3,14 @@ import json
 from pathlib import Path
 from heapq import heapify, heappop, heappush
 import datetime
+import jsondiff
 
 app = "/home/student/RSX217_MINI-PROJ/app/"
 
 path_last_exec = app + "last_exec.txt"
 path_actual_graph = app + "actual_graph.json"
 path_template = app + "template/flow.json"
+path_nodepath = app + "actual_nodepath.json"
 
 def last_exec_time():
     # get the last exec time in the file
@@ -265,6 +267,8 @@ distances_c4 = G.shortest_distances("of:00000000000000c4")'''
 
 #print(hosts)
 
+nodepath_print = {}
+
 # Create a fifo to auto create path betweens all hosts
 hosts_fifo = []
 
@@ -276,9 +280,11 @@ print(hosts_fifo)
 
 while len(hosts_fifo) >= 2:
     h1 = hosts_fifo.pop(0)
+    #print(h1)
     
     for host in hosts_fifo:
         h2 = host
+        
         
         # getting the cost in Mbits for the hosts
         switch_h1 = nodelink.table[h1]["switch"]
@@ -286,15 +292,6 @@ while len(hosts_fifo) >= 2:
 
         switch_h2 = nodelink.table[h2]["switch"]
         switch_port_h2 = nodelink.table[h2]["switch_port"]
-
-        #better_stats = json.loads(Path("stats.json").read_text())
-        #h1_cost_out = better_stats[switch_h1][switch_port_h1]["Mbits_in"]
-        #h2_cost_out = better_stats[switch_h2][switch_port_h2]["Mbits_in"]
-        # convert mega to giga
-        #h1_cost_out = h1_cost_out * 0.001
-        #h2_cost_out = h2_cost_out * 0.001
-        #biggest_cost = h1_cost_out if h1_cost_out > h2_cost_out else h2_cost_out
-        #print(h1 + " <-> " + h2)
         
         # getting the first node with the first host
         # getting the last node with the last host
@@ -307,7 +304,7 @@ while len(hosts_fifo) >= 2:
         nodepath = G.shortest_path(first_node,last_node)
         nodepath = json.loads(json.dumps(nodepath))
         #print(nodepath)
-        
+        nodepath_print[h1 +"_" +h2] = nodepath
         # Increase the cost of each neighbors node with host cost
             
         
@@ -336,6 +333,7 @@ while len(hosts_fifo) >= 2:
         else:
         
             for node in nodepath:
+                #print(node)
                 index = nodepath.index(node)
                 node_id = node
                 mac_src = h1
@@ -375,27 +373,12 @@ while len(hosts_fifo) >= 2:
                         for criteria in flow["selector"]["criteria"]:
                             if last_bytes < flow["bytes"]:
                                 last_bytes = flow["bytes"]
-                                '''
-                            try:
-                                if h1 == criteria["mac"] and criteria["type"] == "ETH_SRC":
-                                    last_bytes = flow["bytes"]
-                                    print(h1 + " " + h2 + " last : " + str(last_bytes))
-                            except:
-                                continue'''
                             
                 if flows_now:
                     for flow in flows_now:
                         for criteria in flow["selector"]["criteria"]:
                             if actual_bytes < flow["bytes"]:
                                 actual_bytes = flow["bytes"]
-                            '''
-                        actual_bytes = flow["bytes"] if actual_bytes 
-                        try:
-                            if h1 == criteria["mac"] and criteria["type"] == "ETH_SRC":
-                                actual_bytes = flow["bytes"]
-                                print(h1 + " " + h2 + " actual : " + str(actual_bytes))
-                        except:
-                            continue'''
                             
                 diff = actual_bytes - last_bytes
                 if diff > 0 :
@@ -404,9 +387,14 @@ while len(hosts_fifo) >= 2:
                     print("diff : " + str(diff))
                     
                 if index < len(nodepath) -1:
-                    G.graph[node][nodepath[index+1]] = G.graph[node][nodepath[index+1]] + diff
-                    G.graph[nodepath[index+1]][node] = G.graph[nodepath[index+1]][node] + diff
-                    
+                    if G.graph[node][nodepath[index+1]] + diff > 0 :
+                        G.graph[node][nodepath[index+1]] = G.graph[node][nodepath[index+1]] + diff
+                    else:
+                        G.graph[node][nodepath[index+1]] = 1
+                    if G.graph[nodepath[index+1]][node] + diff > 0:
+                        G.graph[nodepath[index+1]][node] = G.graph[nodepath[index+1]][node] + diff
+                    else:
+                        G.graph[nodepath[index+1]][node] = 1
                                 
                     #G.graph[node][nodepath[index+1]] = G.graph[node][nodepath[index+1]] + biggest_cost
                     
@@ -484,6 +472,14 @@ for flow in flows :
 
 #print(json.dumps(G.graph))
 Path(path_actual_graph).write_text(json.dumps((G.graph), indent=4, sort_keys=True))
+try:
+    last_nodepath = json.loads(Path(path_nodepath).read_text())
+    if len(jsondiff.diff(last_nodepath, nodepath_print)) > 0 :
+        print("nodepath has been modified, you can check the 'actual_nodepath.json'")
+    #print(jsondiff.diff(last_nodepath, nodepath_print))
+except:
+    pass
+Path(path_nodepath).write_text(json.dumps(nodepath_print, indent=4, sort_keys=True))
 time_end = datetime.datetime.now()
 
 total_exec_time = time_end - time_start 

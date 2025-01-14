@@ -1,15 +1,15 @@
 [
     {
         "appId": "00:00:00:00:00:0500:00:00:00:00:04of:00000000000000c1",
-        "bytes": 2761784694,
+        "bytes": 1015856384,
         "deviceId": "of:00000000000000c1",
         "groupId": 0,
         "id": "114278844089589882",
         "isPermanent": false,
-        "lastSeen": 1736809483884,
-        "life": 3,
+        "lastSeen": 1736882730494,
+        "life": 72,
         "liveType": "UNKNOWN",
-        "packets": 63107,
+        "packets": 23256,
         "priority": 10,
         "selector": {
             "criteria": [
@@ -35,7 +35,7 @@
             "deferred": [],
             "instructions": [
                 {
-                    "port": "1",
+                    "port": "2",
                     "type": "OUTPUT"
                 }
             ]
@@ -43,20 +43,20 @@
     },
     {
         "appId": "00:00:00:00:00:0500:00:00:00:00:04of:00000000000000c1",
-        "bytes": 3809118,
+        "bytes": 743166,
         "deviceId": "of:00000000000000c1",
         "groupId": 0,
-        "id": "114278843604863376",
+        "id": "114278842093407261",
         "isPermanent": false,
-        "lastSeen": 1736809483884,
-        "life": 3,
+        "lastSeen": 1736882730494,
+        "life": 72,
         "liveType": "UNKNOWN",
-        "packets": 57713,
+        "packets": 11259,
         "priority": 10,
         "selector": {
             "criteria": [
                 {
-                    "port": 1,
+                    "port": 2,
                     "type": "IN_PORT"
                 },
                 {

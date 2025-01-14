@@ -1,15 +1,15 @@
 [
     {
         "appId": "00:00:00:00:00:0600:00:00:00:00:03of:00000000000000c2",
-        "bytes": 4602866,
+        "bytes": 492746,
         "deviceId": "of:00000000000000c2",
         "groupId": 0,
         "id": "69805796817875156",
         "isPermanent": false,
-        "lastSeen": 1736809528869,
-        "life": 4,
+        "lastSeen": 1736882730697,
+        "life": 72,
         "liveType": "UNKNOWN",
-        "packets": 69739,
+        "packets": 7465,
         "priority": 10,
         "selector": {
             "criteria": [
@@ -43,15 +43,15 @@
     },
     {
         "appId": "00:00:00:00:00:0600:00:00:00:00:03of:00000000000000c2",
-        "bytes": 3150617598,
+        "bytes": 393947054,
         "deviceId": "of:00000000000000c2",
         "groupId": 0,
         "id": "69805797071370520",
         "isPermanent": false,
-        "lastSeen": 1736809528869,
-        "life": 4,
+        "lastSeen": 1736882730697,
+        "life": 72,
         "liveType": "UNKNOWN",
-        "packets": 72019,
+        "packets": 9035,
         "priority": 10,
         "selector": {
             "criteria": [
