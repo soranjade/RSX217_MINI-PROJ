@@ -29,8 +29,8 @@ ES3 ---  h6([h6])
 h3([h3]) --- ES2
   h4([h4]) --- ES2
 
-CS4 ---  ph9([ph9])
- ph10([ph10]) --- CS2
+CS4 ---  ph1([ph1])
+ ph2([ph2]) --- CS2
 
     style CS1 fill:yellow,stroke:#f66,stroke-width:2px,color:red,stroke-dasharray: 5 5
     style CS2 fill:yellow,stroke:#f66,stroke-width:2px,color:red,stroke-dasharray: 5 5
@@ -50,5 +50,5 @@ CS4 ---  ph9([ph9])
     style h6 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
     style h7 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
     style h8 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style ph9 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style ph10 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style ph1 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style ph2 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
