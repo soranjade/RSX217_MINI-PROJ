@@ -482,6 +482,6 @@ except:
     pass
 Path(path_nodepath).write_text(json.dumps(nodepath_print, indent=4, sort_keys=True))
 time_end = datetime.datetime.now()
-
+#
 total_exec_time = time_end - time_start 
 print("exec time : " + str(total_exec_time.total_seconds()))
