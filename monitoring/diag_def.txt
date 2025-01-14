@@ -1,25 +1,35 @@
 graph LR
 
- 
- ES1  --  e1__ port__3__  --- CS1  --  c1__ port__1__ --- CS2 -- c2__ port__5__ --- ES3  
- ES1  --  e1__ port__4__  --- CS4  -- c4__ port__2__--- CS3 --c3__ port__3__ --- ES3 
 
- CS1 --  c1__ port__4__ --- ES2 --  e2__ port__4__ --- CS2
- CS3  --  c3__ port__4__--- ES4 -- e4__ port__4__--- CS4
+    ES1  --  e1_3_recv  --- CS1  --  c1_1_recv --- CS2 -- c2_5_recv --- ES3
+    ES1  --  e1_3_sent  --- CS1  --  c1_1_sent --- CS2 -- c2_5_sent --- ES3
 
- ES3 ---  h5([h5])
- ES3 ---  h6([h6])
 
- h1([h1]) --- ES1
- h2([h2]) --- ES1
+    ES1  --  e1_4_recv  --- CS4  -- c4_2_recv --- CS3 -- c3_3_recv --- ES3    
+    ES1  --  e1_4_sent  --- CS4  -- c4_2_sent --- CS3 --  c3_3_sent --- ES3    
 
- ES4 ---   h7([h7]) 
- ES4 ---   h8([h8])
 
- h3([h3]) --- ES2
- h4([h4]) --- ES2
+ CS1 --  c1_4_recv --- ES2 --  e2_4_recv --- CS2
+ CS1 --  c1_4_sent --- ES2 --  e2_4_sent --- CS2
 
- CS4 ---  ph9([ph9])
+
+ CS3  --  c3_4_recv --- ES4 -- e4_4_recv --- CS4
+ CS3  --  c3_4_sent --- ES4 -- e4_4_sent --- CS4
+
+
+ES3 ---  h5([h5])
+ES3 ---  h6([h6])
+
+  h1([h1]) --- ES1
+   h2([h2]) --- ES1
+
+  ES4 ---   h7([h7])
+    ES4 ---   h8([h8])
+
+h3([h3]) --- ES2
+  h4([h4]) --- ES2
+
+CS4 ---  ph9([ph9])
  ph10([ph10]) --- CS2
 
     style CS1 fill:yellow,stroke:#f66,stroke-width:2px,color:red,stroke-dasharray: 5 5
@@ -31,3 +41,14 @@ graph LR
     style ES2 fill:blue,stroke:#f66,stroke-width:2px,color:black,stroke-dasharray: 5 5
     style ES3 fill:blue,stroke:#f66,stroke-width:2px,color:black,stroke-dasharray: 5 5
     style ES4 fill:blue,stroke:#f66,stroke-width:2px,color:black,stroke-dasharray: 5 5
+
+    style h1 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h2 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h3 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h4 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h5 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h6 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h7 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h8 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style ph9 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style ph10 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
