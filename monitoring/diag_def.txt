@@ -42,13 +42,13 @@ CS4 ---  ph9([ph9])
     style ES3 fill:blue,stroke:#f66,stroke-width:2px,color:black,stroke-dasharray: 5 5
     style ES4 fill:blue,stroke:#f66,stroke-width:2px,color:black,stroke-dasharray: 5 5
 
-    style h1 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h2 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h3 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h4 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h5 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h6 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h7 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style h8 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style ph9 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
-    style ph10 fill:purple,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h1 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h2 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h3 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h4 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h5 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h6 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h7 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style h8 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style ph9 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
+    style ph10 fill:white,stroke:#000,stroke-width:2px,color:black,stroke-dasharray: 0 0
