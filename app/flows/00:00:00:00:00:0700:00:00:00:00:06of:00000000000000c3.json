@@ -1,1 +1,86 @@
-[]
+[
+    {
+        "appId": "00:00:00:00:00:0700:00:00:00:00:06of:00000000000000c3",
+        "bytes": 0,
+        "deviceId": "of:00000000000000c3",
+        "groupId": 0,
+        "id": "62768921391252523",
+        "isPermanent": false,
+        "lastSeen": 1736885450742,
+        "life": 5,
+        "liveType": "UNKNOWN",
+        "packets": 0,
+        "priority": 10,
+        "selector": {
+            "criteria": [
+                {
+                    "port": 4,
+                    "type": "IN_PORT"
+                },
+                {
+                    "mac": "00:00:00:00:00:06",
+                    "type": "ETH_DST"
+                },
+                {
+                    "mac": "00:00:00:00:00:07",
+                    "type": "ETH_SRC"
+                }
+            ]
+        },
+        "state": "ADDED",
+        "tableId": 0,
+        "tableName": "0",
+        "timeout": 60,
+        "treatment": {
+            "deferred": [],
+            "instructions": [
+                {
+                    "port": "3",
+                    "type": "OUTPUT"
+                }
+            ]
+        }
+    },
+    {
+        "appId": "00:00:00:00:00:0700:00:00:00:00:06of:00000000000000c3",
+        "bytes": 0,
+        "deviceId": "of:00000000000000c3",
+        "groupId": 0,
+        "id": "62768920054864144",
+        "isPermanent": false,
+        "lastSeen": 1736885450742,
+        "life": 5,
+        "liveType": "UNKNOWN",
+        "packets": 0,
+        "priority": 10,
+        "selector": {
+            "criteria": [
+                {
+                    "port": 3,
+                    "type": "IN_PORT"
+                },
+                {
+                    "mac": "00:00:00:00:00:07",
+                    "type": "ETH_DST"
+                },
+                {
+                    "mac": "00:00:00:00:00:06",
+                    "type": "ETH_SRC"
+                }
+            ]
+        },
+        "state": "ADDED",
+        "tableId": 0,
+        "tableName": "0",
+        "timeout": 60,
+        "treatment": {
+            "deferred": [],
+            "instructions": [
+                {
+                    "port": "4",
+                    "type": "OUTPUT"
+                }
+            ]
+        }
+    }
+]

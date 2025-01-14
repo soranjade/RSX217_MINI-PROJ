@@ -4,8 +4,9 @@ from pathlib import Path
 from heapq import heapify, heappop, heappush
 import datetime
 import jsondiff
+import os
 
-app = "/home/student/RSX217_MINI-PROJ/app/"
+app = os.path.dirname(__file__) + "/"
 
 path_last_exec = app + "last_exec.txt"
 path_actual_graph = app + "actual_graph.json"
