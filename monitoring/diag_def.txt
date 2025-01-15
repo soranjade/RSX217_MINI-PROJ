@@ -16,21 +16,31 @@ graph LR
  CS3  --  c3_4_recv --- ES4 -- e4_4_recv --- CS4
  CS3  --  c3_4_sent --- ES4 -- e4_4_sent --- CS4
 
+  h1([h1])  -- e1_1_recv --- ES1
+  h1([h1])  -- e1_1_sent --- ES1
+  h2([h2])  -- e1_2_recv --- ES1
+  h2([h2])  -- e1_2_sent --- ES1
 
-ES3 ---  h5([h5])
-ES3 ---  h6([h6])
+  h3([h3]) -- e2_1_recv --- ES2
+  h3([h3]) -- e2_1_sent --- ES2
+  h4([h4]) -- e2_2_recv  --- ES2
+  h4([h4]) -- e2_2_sent  --- ES2
 
-  h1([h1]) --- ES1
-   h2([h2]) --- ES1
 
-  ES4 ---   h7([h7])
-    ES4 ---   h8([h8])
+  ES3 -- e3_1_recv ---  h5([h5])
+  ES3 -- e3_1_sent ---  h5([h5])
+  ES3 -- e3_2_recv---  h6([h6])
+  ES3 -- e3_2_sent---  h6([h6])
 
-h3([h3]) --- ES2
-  h4([h4]) --- ES2
+  ES4 -- e4_1_recv ---   h7([h7])
+  ES4 -- e4_1_sent ---   h7([h7])
+  ES4 -- e4_2_recv ---   h8([h8])
+  ES4 -- e4_2_sent ---   h8([h8])
 
-CS4 ---  ph1([ph1])
- ph2([ph2]) --- CS2
+  CS4 -- c4_1_recv ---  ph1([ph1])
+  CS4 -- c4_1_sent ---  ph1([ph1])
+  ph2([ph2])-- c2_1_recv --- CS2
+  ph2([ph2])-- c2_1_sent --- CS2
 
     style CS1 fill:yellow,stroke:#f66,stroke-width:2px,color:red,stroke-dasharray: 5 5
     style CS2 fill:yellow,stroke:#f66,stroke-width:2px,color:red,stroke-dasharray: 5 5
