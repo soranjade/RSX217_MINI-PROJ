@@ -16,13 +16,14 @@ On va modifier le dashbord SND_EXPORTER en replaçant les types de graph par Dia
 ( dans chaque panneau on clique dans le coin en haut à droite, les 3 points, puis "Remove")
 - On édite dans le panneau Bytes received per Port per second (on clique dans le coin en haut à droite, les 3 points, puis "Edit")
 - En haut à droite on change le type de graph: par défaut c'est Time Serie et on met Diagram
-- On va modifier le nom des metrics dans la légende:
+- On va modifier le nom des metrics dans la légende et mettre les unités en bit:
    - Dans le cadre query, en bas, on va à la dernière ligne "Options" et dans le champs "legends" on choisit custom et on met : {{node}}_{{port}}_recv
    - On valide avec le bouton bleu à droite "Run queries"
+   - Dans la ligne "Metrics Browser" on rajoute *8 à la fin : irate(onos_device_bytes_sent{}[15m])*8
 - On va ajouter les metrics "sent":
   -   On va sur la query C modifiée précédemment
   -   On clique sur l'icone "duplicate query" (2ième icone dans le coin à droite au bout de la ligne C)
-  -   Dans la ligne "Metrics Browser" on met : irate(onos_device_bytes_sent{}[15m]) à la place de irate(onos_device_bytes_received{}[15m])
+  -   Dans la ligne "Metrics Browser" on met : irate(onos_device_bytes_sent{}[15m])*8 à la place de irate(onos_device_bytes_received{}[15m])*8
   -   Comme précédemment on modifie le nom de la metrics dans la légende, on mets: {{node}}_{{port}}_sent
     
 - On va maintenant créer le schéma de la topo et  modifier plusieurs options: On va dans le cadre qui est dans la partie droite de  la page
